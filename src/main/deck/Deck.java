@@ -5,8 +5,8 @@ import java.util.Random;
 public class Deck
     {
         public static final int NUM_CARDS = 52;
-        ArrayList<PlayingCard> deck = new ArrayList<PlayingCard>();
-        Random generator = new Random();
+        private ArrayList<PlayingCard> deck;
+        private Random generator;
 
         public Deck()
             {
@@ -22,18 +22,28 @@ public class Deck
 
         public void initialize()
             {
-                for(int i = 0; i < 13; i++)
+                PlayingCard temp;
+                deck = new ArrayList<>();
+                for(Rank r : Rank.values()) 
                     {
-                        for(int j = 0; j < 4; j++)
+                        for(Suit s : Suit.values())
                             {
-                                PlayingCard card = new PlayingCard(Rank(i), null)
+                                temp = new PlayingCard(r, s);
+                                deck.add(temp);
                             }
                     }
             }
 
         public void shuffleDeck()
             {
-
+                PlayingCard temp;
+                for(int i = deck.size() - 1; i > 0; i--)
+                    {
+                        int randTemp = generator.nextInt(i);
+                        temp = deck.get(i);
+                        deck.set(i, deck.get(randTemp));
+                        deck.set(randTemp, temp);
+                    }
             }
 
         public PlayingCard getCard(int index)
@@ -46,8 +56,8 @@ public class Deck
                 String r = "";
                 for(int i = 0; i < deck.size(); i++)
                     {
-                        r += deck.get(i).toString() + "/n";
+                        r += deck.get(i).toString() + "\n";
                     }
-                return r;
+                return r.substring(0, r.length() - 1);
             }
     }
